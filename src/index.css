@@ -2,5 +2,7 @@
 /* @plugin "daisyui"; */
 
 @plugin "daisyui" {
-  themes: dark --default;
+  themes:
+    dark --default,
+    light --preferedark;
 }

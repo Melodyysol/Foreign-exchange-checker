@@ -1,14 +1,8 @@
 import "./App.css";
+import { HomePage } from "./pages/home/HomePage";
 
 function App() {
-  return (
-    <div className="bg-base-200">
-  <div className="bg-base-100 border-base-300 text-base-content">
-    This is dark text on a light background, which switches to light text on a dark background in
-    dark mode.
-  </div>
-</div>
-  );
+  return <HomePage />;
 }
 
 export default App;
