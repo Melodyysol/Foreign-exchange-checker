@@ -1,85 +1,65 @@
-// import { Navbar } from "./Navbar"
+
 import LogoImage from "../assets/icons/logo.svg";
-import ChevronDropImage from "../assets/icons/icon-chevron-down.svg";
+
+const markets = [
+  {
+    pair: "USD/JPY",
+    price: 157.91,
+    change: 0.84,
+  },
+  {
+    pair: "EUR/USD",
+    price: 1.0842,
+    change: -0.22,
+  },
+  {
+    pair: "GBP/USD",
+    price: 1.2754,
+    change: 0.18,
+  },
+  {
+    pair: "USD/NGN",
+    price: "1580.50",
+    change: -0.05,
+  },
+];
 
 export const Header = () => {
   return (
     <header className="text-sm text-neutral-500">
       <div className="p-4 flex items-center justify-between">
-        <div className="logo cursor-pointer">
-          <img src={LogoImage} alt="image-logo" />
+        <div className="logo cursor-pointer w-30 sm:w-40 md:w-60">
+          <img src={LogoImage} alt="FX Checker" />
         </div>
-        <div className="uppercase text-[10px] md:text-xs">
-          <small>55 currencies . eod . ecb data</small>
+        <div className="uppercase text-xs md:text-lg">
+          <small>55 Currencies · EOD · ECB data</small>
         </div>
       </div>
-      <div className="flex justify-between">
-        <span className="bg-accent text-neutral-950 text-xs px-4 py-1 uppercase font-bold">
-          . Live Markets
+      <div className="flex">
+        <span className="bg-accent text-black font-bold px-3 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          LIVE MARKETS
         </span>
-        <div className="overflow-x-scroll flex items-center bg-gray-900 scrollbar-none">
-          <span className="text-red-600 text-xs px-4 py-1 border-r border-r-black">
-            -0.14%
-          </span>
-          <div className="flex gap-2 px-3 py-1 text-xs">
-            <span>USD/JPY</span>
-            <span>157.91</span>
-            <img
-              src={ChevronDropImage}
-              alt="Chevron raise image"
-              className="rotate-180"
-            />{" "}
-            <span>+0.84%</span>
-          </div>
-          <div className="flex gap-2 px-3 py-1 text-xs">
-            <span>USD/JPY</span>
-            <span>157.91</span>
-            <img
-              src={ChevronDropImage}
-              alt="Chevron raise image"
-              className="rotate-180"
-            />{" "}
-            <span>+0.84%</span>
-          </div>
-          <div className="flex gap-2 px-3 py-1 text-xs">
-            <span>USD/JPY</span>
-            <span>157.91</span>
-            <img
-              src={ChevronDropImage}
-              alt="Chevron raise image"
-              className="rotate-180"
-            />{" "}
-            <span>+0.84%</span>
-          </div>
-          <div className="flex gap-2 px-3 py-1 text-xs">
-            <span>USD/JPY</span>
-            <span>157.91</span>
-            <img
-              src={ChevronDropImage}
-              alt="Chevron raise image"
-              className="rotate-180"
-            />{" "}
-            <span>+0.84%</span>
-          </div>
-          <div className="flex gap-2 px-3 py-1 text-xs">
-            <span>USD/JPY</span>
-            <span>157.91</span>
-            <img
-              src={ChevronDropImage}
-              alt="Chevron raise image"
-              className="rotate-180"
-            />{" "}
-            <span>+0.84%</span>
-          </div>
-          <div className="flex gap-2 px-3 py-1 text-xs">
-            <span>USD/JPY</span>
-            <span>157.91</span>
-            <img
-              src={ChevronDropImage}
-              alt="Chevron raise image"
-              className="rotate-180"
-            />{" "}
-            <span>+0.84%</span>
+        <div className="flex-1 overflow-hidden bg-gray-900">
+          <div className="overflow-hidden bg-gray-900">
+            <div className="flex w-max animate-marquee">
+              {[...markets, ...markets].map((market, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-3 px-5 whitespace-nowrap"
+                >
+                  <span>{market.pair}</span>
+                  <span>{market.price}</span>
+                  <span
+                    className={
+                      market.change > 0 ? "text-success" : "text-error"
+                    }
+                  >
+                    {market.change > 0 ? "▲" : "▼"} {market.change}%
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

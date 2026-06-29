@@ -1,57 +1,112 @@
+import { useState } from "react";
+import type { Tab } from "../../../type/tabs";
+
+const tabs: { tab: Tab; num?: number }[] = [
+  { tab: "history" },
+  { tab: "compare" },
+  { tab: "favorites", num: 30 },
+  { tab: "log", num: 8 },
+];
+
+const stats = [
+  { title: "Open", value: "0.8516" },
+  { title: "Last", value: "0.8516" },
+  { title: "Change", value: "+0.0014", color: "text-green-500" },
+  { title: "% Change", value: "▲ +0.16%", color: "text-green-500" },
+];
+const ranges = ["1D", "1W", "1M", "3M", "1Y", "5Y"];
+
 export const History = () => {
+  const [currentTab, setCurrentTab] = useState(tabs[0]);
+  const [selectedRange, setSelectedRange] = useState("1D");
+
   return (
     <section className="w-10/12 md:4/5 mx-auto pb-10">
-      <div className="border-b-2 border-b-base-200">
-        <button className="uppercase btn btn-ghost border-b btn-sm border-b-yellow-50 rounded-none">
-          history
-        </button>
-        <button className="uppercase btn btn-ghost border-b btn-sm">
-          compare
-        </button>
-        <button className="uppercase btn btn-ghost border-b btn-sm">
-          favorites
-          <span className="bg-gray-400/30  text-yellow-50 p-1 rounded-full text-[8px]">
-            30
-          </span>
-        </button>
-        <button className="uppercase btn btn-ghost border-b btn-sm">
-          log
-          <span className="bg-gray-400/30  text-yellow-50 px-1.5 py-0.5 rounded-full text-[8px]">
-            8
-          </span>
-        </button>
+      <div className="border-b-2 border-b-base-200 hidden md:block">
+        {tabs.map(({ tab, num }) => (
+          <button
+            key={tab}
+            className={`uppercase btn border-b btn-sm ${currentTab.tab === tab ? "btn-soft" : "btn-ghost"}`}
+            onClick={() => setCurrentTab({ tab, num })}
+          >
+            {tab}
+            {num && (
+              <span className="bg-gray-400/30  text-yellow-50 px-1.5 py-0.5 rounded-full text-[8px]">
+                {num}
+              </span>
+            )}
+          </button>
+        ))}
       </div>
-      <div className="my-5 flex flex-col gap-4 md:flex-row justify-between items-center">
-        <div className="grid grid-cols-4 gap-2 items-center justify-between">
-          <div className="flex flex-col gap-2 bg-gray-900 p-2 md:p-3 md:pr-10 rounded-lg">
-            <span className="text-xs uppercase">Open</span>
-            <span className="text-gray-300">0.8516</span>
-          </div>
-          <div className="flex flex-col gap-2 bg-gray-900 p-2 md:p-3 md:pr-10 rounded-lg">
-            <span className="text-xs uppercase">Open</span>
-            <span className="text-gray-300">0.8516</span>
-          </div>
-          <div className="flex flex-col gap-2 bg-gray-900 p-2 md:p-3 md:pr-10 rounded-lg">
-            <span className="text-xs uppercase">Open</span>
-            <span className="text-gray-300">0.8516</span>
-          </div>
-          <div className="flex flex-col gap-2 bg-gray-900 p-2 md:p-3 md:pr-10 rounded-lg">
-            <span className="text-xs uppercase">Open</span>
-            <span className="text-gray-300">0.8516</span>
-          </div>
+
+      <div className="dropdown dropdown-end w-full md:hidden">
+        <button
+          tabIndex={0}
+          type="button"
+          className="cursor-pointer uppercase btn btn-block btn-sm btn-soft gap-2"
+        >
+          {currentTab.tab}
+          {currentTab.num ? (
+            <span className="bg-gray-400/30  text-yellow-50 px-1.5 py-0.5 rounded-full text-[8px]">
+              {currentTab.num}
+            </span>
+          ) : (
+            ""
+          )}
+        </button>
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-10 menu shadow bg-base-200 rounded-box w-full gap-2"
+        >
+          {tabs.map((t) => (
+            <li
+              key={t.tab}
+              className="uppercase flex flex-row items-center gap-1 cursor-pointer hover:bg-base-300 p-2"
+              value={t.tab}
+              onClick={() => setCurrentTab(t)}
+            >
+              {t.tab}
+              {t.num ? (
+                <span className="bg-gray-400/30  text-yellow-50 px-1.5 py-0.5 rounded-full text-[8px]">
+                  {t.num}
+                </span>
+              ) : (
+                ""
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="my-5 flex flex-col gap-4 md:flex-row justify-between items-start md:items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center justify-between w-full">
+          {stats.map((stat) => (
+            <div
+              key={stat.title}
+              className="flex flex-col gap-2 bg-gray-900 p-3 rounded-lg"
+            >
+              <span className="text-xs uppercase">{stat.title}</span>
+              <span className={`${stat.color ? stat.color : "text-gray-300"}`}>
+                {stat.value}
+              </span>
+            </div>
+          ))}
         </div>
-        <div className="bg-gray-900 rounded-md">
-          <button className="btn btn-ghost  btn-sm">1D</button>
-          <button className="btn btn-sm btn-ghost">1D</button>
-          <button className="btn btn-sm btn-soft">1D</button>
-          <button className="btn  btn-sm btn-ghost">1D</button>
-          <button className="btn btn-sm btn-ghost">1D</button>
-          <button className="btn btn-sm btn-ghost">1D</button>
+        <div className="bg-gray-900 rounded-md whitespace-nowrap">
+          {ranges.map((range) => (
+            <button
+              key={range}
+              className={`btn btn-md ${range === selectedRange ? "btn-soft" : "btn-ghost"}`}
+              onClick={() => setSelectedRange(range)}
+            >
+              {range}
+            </button>
+          ))}
         </div>
       </div>
       <div className="rounded-xl p-4 bg-gray-900">
         <div className="flex items-center justify-between">
-          <span>USD/EUR</span>
+          <span className="text-base-content">USD/EUR</span>
           <span className="uppercase text-[10px]">
             6.8538 - May 14 16:00 cet
           </span>
