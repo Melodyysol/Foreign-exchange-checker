@@ -11,6 +11,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
+import { fetchCurrency } from "../../../service/fetchCurrency";
 
 const currencies = [
   {
@@ -41,6 +42,11 @@ export const Exchange = () => {
   const swapCurrencies = () => {
     setSendCurrency(receiveCurrency);
     setReceiveCurrency(sendCurrency);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    fetchCurrency(sendCurrency.code, receiveCurrency.code);
   };
 
   return (
@@ -99,9 +105,12 @@ export const Exchange = () => {
               receive
             </label>
             <div className="flex justify-between items-center relative">
-              <span className="text-yellow-200 text-2xl md:text-3xl">
-                853.02
-              </span>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                className="input w-20 my-2 outline-none border-none bg-transparent text-info text-2xl"
+              />
 
               <Listbox value={receiveCurrency} onChange={setReceiveCurrency}>
                 <ListboxButton className="btn btn-ghost z-10">
@@ -138,7 +147,7 @@ export const Exchange = () => {
               Updated 2 minutes ago
             </small>
           </div>
-          <form className="flex gap-2">
+          <form className="flex gap-2" onSubmit={handleSubmit}>
             <button
               className="btn btn-accent btn-xs uppercase"
               type="button"
