@@ -53,6 +53,7 @@ const Sidebar = ({
 
   const handleNavigation = (path: string) => {
     navigate(path);
+    setShowSidebar(false);
   };
 
   return (
