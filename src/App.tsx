@@ -1,7 +1,7 @@
-import Index from "./pages/home/Index";
+import Router from "./Router";
 
 function App() {
-  return <Index />;
+  return <Router />;
 }
 
 export default App;
