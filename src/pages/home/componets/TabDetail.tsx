@@ -15,8 +15,7 @@ const stats = [
   { title: "% Change", value: "▲ +0.16%", color: "text-green-500" },
 ];
 const ranges = ["1D", "1W", "1M", "3M", "1Y", "5Y"];
-
-export const History = () => {
+const TabDetail = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
   const [selectedRange, setSelectedRange] = useState("1D");
 
@@ -134,3 +133,5 @@ export const History = () => {
     </section>
   );
 };
+
+export default TabDetail;

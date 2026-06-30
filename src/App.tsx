@@ -1,8 +1,8 @@
 import "./App.css";
-import { HomePage } from "./pages/home/HomePage";
+import Index from "./pages/home/Index";
 
 function App() {
-  return <HomePage />;
+  return <Index />;
 }
 
 export default App;

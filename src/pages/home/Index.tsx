@@ -1,7 +1,7 @@
 import { Header } from "../../layouts/Header";
 import { RenderHomePage } from "./componets/RenderHomePage";
 
-export const HomePage = () => {
+const Index = () => {
   return (
     <>
       <Header />
@@ -9,3 +9,4 @@ export const HomePage = () => {
     </>
   );
 };
+export default Index;

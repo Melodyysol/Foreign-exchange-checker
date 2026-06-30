@@ -1,11 +1,11 @@
 import { Exchange } from "./Exchange";
-import { History } from "./History";
+import TabDetail from "./TabDetail";
 
 export const RenderHomePage = () => {
   return (
     <main className="text-sm text-gray-400">
       <Exchange />
-      <History />
+      <TabDetail />
     </main>
   );
 };
