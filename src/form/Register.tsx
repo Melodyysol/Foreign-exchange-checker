@@ -1,14 +1,34 @@
 import { useNavigate } from "react-router-dom";
+import { useForm, type SubmitHandler } from "react-hook-form";
+
 import { Header } from "../layouts/Header";
+
+import type { FormData } from "../type/form";
+import { FormInput } from "./shared/FormInput";
+import { registerData } from "./submitData";
 
 export const Register = () => {
   const navigate = useNavigate();
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>();
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    await registerData(data, reset, navigate);
+  };
 
   return (
     <>
       <Header />
       <main className="h-[90vh] flex items-center">
-        <form className="bg-base-300 p-4 mx-auto w-76 md:w-88 rounded-2xl shadow hover:shadow-md shadow-olive-50">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="bg-base-300 p-4 mx-auto w-76 md:w-88 rounded-2xl shadow hover:shadow-md shadow-olive-50"
+        >
           <div>
             <h1 className="text-center text-2xl uppercase font-bold md:text-4xl">
               Register
@@ -19,22 +39,31 @@ export const Register = () => {
           <div className="flex flex-col gap-5">
             <div>
               <label htmlFor="username">Username:</label>
-              <input type="text" className="input mt-1 md:input-lg" />
+              <input
+                type="text"
+                className="input mt-1 md:input-lg"
+                {...register("username", {
+                  required: "Username is required",
+                  minLength: {
+                    value: 3,
+                    message: "Username must be atleast 3 characters",
+                  },
+                })}
+              />
+              {errors.username && (
+                <p className="text-error text-xs mt-1">
+                  {errors.username.message}
+                </p>
+              )}
             </div>
-            <div>
-              <label htmlFor="email">Email:</label>
-              <input type="email" className="input mt-1 md:input-lg" />
-            </div>
-            <div>
-              <label htmlFor="password">Password:</label>
-              <input type="password" className="input mt-1 md:input-lg" />
-            </div>
+            <FormInput errors={errors} register={register} />
           </div>
           <button
             type="submit"
+            disabled={isSubmitting}
             className="btn md:btn-lg btn-accent btn-block mt-5"
           >
-            Submit
+            {isSubmitting ? "Submitting" : "Submit"}
           </button>
           <p className="mt-5 text-sm text-info text-center">
             Already have an account?{" "}
