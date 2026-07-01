@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { Header } from "../layouts/Header";
+import { FormInput } from "./shared/FormInput";
 
 import type { FormData } from "../type/form";
-import { FormInput } from "./shared/FormInput";
-import { loginData } from "./submitData";
+import useAuth from "../custom-hook/UseAuth";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -17,8 +17,18 @@ export const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
+  const { signIn } = useAuth();
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    await loginData(data, reset, navigate);
+    const result = await signIn(data.email, data.password);
+    if (!result.success) {
+      alert(`Error logging in: ${result.error?.message}`);
+      reset();
+      throw new Error(`Error logging in: ${result.error?.message}`);
+    } else {
+      alert("Login successful!");
+      navigate("/");
+    }
   };
 
   return (
@@ -26,6 +36,7 @@ export const Login = () => {
       <Header />
       <main className="h-[80vh] flex items-center">
         <form
+          autoComplete="off"
           onSubmit={handleSubmit(onSubmit)}
           className="bg-base-300 p-4 mx-auto w-64 md:w-[20rem] rounded-2xl shadow hover:shadow-md shadow-olive-50"
         >

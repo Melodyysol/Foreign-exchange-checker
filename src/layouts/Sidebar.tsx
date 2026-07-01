@@ -1,16 +1,18 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+// import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import useAuth from "../custom-hook/UseAuth";
 
 import CloseIcon from "../assets/icons/close-icon.png";
-import { useNavigate } from "react-router-dom";
+import { UseSection } from "../custom-hook/UseSection";
 
-// Example array structure you can map over
 const authenticatedLinks = [
-  { name: "Converter", icon: "💱", path: "/converter" },
-  { name: "Live Rates", icon: "📈", path: "/live-rates" },
-  { name: "Rate Alerts", icon: "🔔", path: "/rate-alerts" },
-  { name: "Charts", icon: "📊", path: "/charts" },
-  { name: "History", icon: "⏳", path: "/history" },
+  { name: "Converter", icon: "💱", section: "converter" },
+  { name: "Live Rates", icon: "📈", section: "live-rates" },
+  { name: "Rate Alerts", icon: "🔔", section: "rate-alerts" },
+  { name: "Charts", icon: "📊", section: "charts" },
+  { name: "History", icon: "⏳", section: "history" },
   { name: "Settings", icon: "⚙️", path: "/settings" },
 ];
 
@@ -19,7 +21,11 @@ const Sidebar = ({
 }: {
   setShowSidebar: (show: boolean) => void;
 }) => {
-  const [currentLink, setCurrentLink] = useState(authenticatedLinks[0]);
+  // const [currentLink, setCurrentLink] = useState(authenticatedLinks[0]);
+  const location = useLocation();
+  const { currentSection, handleSectionChange } = UseSection();
+
+  const { user, signOut } = useAuth();
 
   const navigate = useNavigate();
 
@@ -51,8 +57,34 @@ const Sidebar = ({
     show: { opacity: 1, x: 0 },
   };
 
-  const handleNavigation = (path: string) => {
-    navigate(path);
+  // const handleNavigation = (path: string) => {
+  //   if (!user) {
+  //     alert("You must be logged in to access this feature.");
+  //     navigate("/login");
+  //     setShowSidebar(false);
+  //     return;
+  //   }
+  //   setShowSidebar(false);
+  //   if (path === "settings") {
+  //     navigate("/settings");
+  //   } else {
+  //     navigate("/");
+  //     setCurrentLink(authenticatedLinks.find((link) => link.name === path)!);
+  //   }
+  // };
+
+  const handleLogout = async () => {
+    if (user) {
+      const result = await signOut();
+      if (!result.success) {
+        alert(`Error logging out: ${result.error?.message}`);
+        throw new Error(`Error logging out: ${result.error?.message}`);
+      } else {
+        alert("Logout successful!");
+        navigate("/login");
+      }
+    }
+    navigate("/login");
     setShowSidebar(false);
   };
 
@@ -82,14 +114,14 @@ const Sidebar = ({
             <img src={CloseIcon} alt={CloseIcon} className="rounded-full" />
           </button>
           <ul className="flex flex-col gap-4 items-start">
-            {authenticatedLinks.map((link, index) => (
+            {authenticatedLinks.map((link) => (
               <motion.li
-                key={index}
+                key={link.name}
                 variants={itemVariants}
-                className={`capitalize btn md:btn-lg justify-start hover:btn-active btn-block ${currentLink.name === link.name ? "btn-active" : "btn-soft"}`}
+                className={`capitalize btn md:btn-lg justify-start hover:btn-active btn-block ${currentSection === link.section || location.pathname === link.path ? "btn-active" : "btn-soft"}`}
                 onClick={() => {
-                  setCurrentLink(link);
-                  handleNavigation(link.path);
+                  handleSectionChange(link.section || "settings");
+                  setShowSidebar(false);
                 }}
               >
                 {link.icon} {link.name}
@@ -97,10 +129,10 @@ const Sidebar = ({
             ))}
           </ul>
           <button
-            onClick={() => handleNavigation("/login")}
-            className="btn btn-success btn-block mt-10 uppercase font-extrabold"
+            onClick={() => handleLogout()}
+            className={`btn ${user ? "btn-error" : "btn-success"} btn-block mt-10 uppercase font-extrabold`}
           >
-            Log In
+            Log {user ? "out" : "in"}
           </button>
         </div>
       </motion.div>

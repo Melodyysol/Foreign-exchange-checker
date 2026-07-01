@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 import { Header } from "../layouts/Header";
+import useAuth from "../custom-hook/UseAuth";
+import { FormInput } from "./shared/FormInput";
 
 import type { FormData } from "../type/form";
-import { FormInput } from "./shared/FormInput";
-import { registerData } from "./submitData";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -15,10 +15,37 @@ export const Register = () => {
     register,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    shouldUseNativeValidation: true,
+    defaultValues: {
+      email: "",
+      password: "",
+      username: "",
+    },
+  });
+
+  const { register: registerFunction } = useAuth();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    await registerData(data, reset, navigate);
+    if (!data.username) {
+      alert("Username is required");
+      reset();
+      throw new Error("Username is required");
+    }
+
+    const result = await registerFunction(
+      data.email,
+      data.password,
+      data.username,
+    );
+    if (!result.success) {
+      alert(`Error registering: ${result.error?.message}`);
+      reset();
+      throw new Error(`Error registering: ${result.error?.message}`);
+    } else {
+      alert("Registration successful!");
+      navigate("/login");
+    }
   };
 
   return (
