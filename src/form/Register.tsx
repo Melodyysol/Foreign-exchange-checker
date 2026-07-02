@@ -6,6 +6,7 @@ import useAuth from "../custom-hook/UseAuth";
 import { FormInput } from "./shared/FormInput";
 
 import type { FormData } from "../type/form";
+import { useEffect } from "react";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -23,6 +24,10 @@ export const Register = () => {
       username: "",
     },
   });
+
+  useEffect(() => {
+    reset(); // Reset form fields when the component mounts
+  }, [reset]);
 
   const { register: registerFunction } = useAuth();
 

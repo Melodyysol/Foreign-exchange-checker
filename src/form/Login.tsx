@@ -6,6 +6,7 @@ import { FormInput } from "./shared/FormInput";
 
 import type { FormData } from "../type/form";
 import useAuth from "../custom-hook/UseAuth";
+import { useEffect } from "react";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -16,6 +17,10 @@ export const Login = () => {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
+
+  useEffect(() => {
+    reset(); // Reset form fields when the component mounts
+  }, [reset]);
 
   const { signIn } = useAuth();
 
@@ -36,7 +41,6 @@ export const Login = () => {
       <Header />
       <main className="h-[80vh] flex items-center">
         <form
-          autoComplete="off"
           onSubmit={handleSubmit(onSubmit)}
           className="bg-base-300 p-4 mx-auto w-64 md:w-[20rem] rounded-2xl shadow hover:shadow-md shadow-olive-50"
         >
