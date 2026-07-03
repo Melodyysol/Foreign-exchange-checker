@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../../../lib/supabase";
 
 import {
   Listbox,
@@ -8,43 +10,35 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 
+import useAuth from "../../../custom-hook/UseAuth";
+import { currencies } from "../../../utilities/currency";
+
 import { fetchCurrency } from "../../../service/fetchCurrency";
 
-import Images from "../../../assets/images/flags/ae.webp";
 import ExchangeIcon from "../../../assets/icons/icon-exchange.svg";
 import ExchangeVerticalIcon from "../../../assets/icons/icon-exchange-vertical.svg";
 import StarIcon from "../../../assets/icons/icon-star.svg";
 import FilledStarIcon from "../../../assets/icons/icon-star-filled.svg";
-import { supabase } from "../../../lib/supabase";
-import useAuth from "../../../custom-hook/UseAuth";
-import { useNavigate } from "react-router-dom";
 
-const currencies = [
-  {
-    code: "USD",
-    country: "United States",
-    flag: Images,
-  },
-  {
-    code: "EUR",
-    country: "Europe",
-    flag: Images,
-  },
-  {
-    code: "GBP",
-    country: "United Kingdom",
-    flag: Images,
-  },
-];
+type Currency = (typeof currencies)[number];
 
-export const Exchange = () => {
+type CurrencyProps = {
+  sendCurrency: Currency;
+  setSendCurrency: (cur: Currency) => void;
+  receiveCurrency: Currency;
+  setReceiveCurrency: (cur: Currency) => void;
+};
+
+export const Exchange = ({
+  sendCurrency,
+  setSendCurrency,
+  receiveCurrency,
+  setReceiveCurrency,
+}: CurrencyProps) => {
   const navigate = useNavigate();
 
   const [amount, setAmount] = useState(1000);
-  const [sendCurrency, setSendCurrency] = useState(currencies[0]);
-  const [receiveCurrency, setReceiveCurrency] = useState(
-    currencies[currencies.length - 1],
-  );
+
   const [favorite, setFavorite] = useState(false);
 
   const { user } = useAuth();
@@ -124,7 +118,7 @@ export const Exchange = () => {
                   />
                   {sendCurrency.code}
                 </ListboxButton>
-                <ListboxOptions className="bg-gray-800 border border-gray-700 rounded-box shadow-xl mt-2 w-64 absolute right-0 top-12 z-20 p-1">
+                <ListboxOptions className="bg-gray-800 border border-gray-700 rounded-box shadow-xl mt-2 w-64 absolute right-0 top-12 z-20 p-1 overflow-y-scroll max-h-60">
                   {currencies.map((currency) => (
                     <ListboxOption key={currency.code} value={currency}>
                       <div className="flex items-center gap-3 p-2 cursor-pointer rounded-md hover:bg-gray-700 text-white">
@@ -187,7 +181,7 @@ export const Exchange = () => {
                   />
                   {receiveCurrency.code}
                 </ListboxButton>
-                <ListboxOptions className="bg-gray-800 border border-gray-700 rounded-box shadow-xl mt-2 w-64 absolute right-0 top-12 z-20 p-1">
+                <ListboxOptions className="bg-gray-800 border border-gray-700 rounded-box shadow-xl mt-2 w-64 absolute right-0 top-12 z-20 p-1 overflow-y-scroll max-h-60">
                   {currencies.map((currency) => (
                     <ListboxOption key={currency.code} value={currency}>
                       <div className="flex items-center gap-3 p-2 cursor-pointer rounded-md hover:bg-gray-700 text-white">

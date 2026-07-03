@@ -9,4 +9,12 @@ export const chartSchema = z.object({
   rates: z.record(z.string(), z.number()),
 });
 
+export const chartHistorySchema = z.object({
+  base: z.string(),
+  start_date: z.string(),
+  end_date: z.string(),
+  rates: z.record(z.string(), z.record(z.string(), z.number())),
+});
+
 export type Chart = z.infer<typeof chartSchema>;
+export type ChartHistory = z.infer<typeof chartHistorySchema>;
