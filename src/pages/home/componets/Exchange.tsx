@@ -79,6 +79,22 @@ export const Exchange = ({
       alert("Error inserting log" + logError);
     }
     if (favorite) {
+      const { data: existingFavorite, error } = await supabase
+        .from("favorites")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("base_currency", sendCurrency.code)
+        .eq("target_currency", receiveCurrency.code)
+        .maybeSingle();
+
+      if (error) {
+        console.log("Error checking existing data: " + error);
+        return;
+      }
+      if (existingFavorite) {
+        alert("Already in the favourite");
+        return;
+      }
       const { error: favoriteError } = await supabase.from("favorites").insert({
         user_id: user.id,
         base_currency: sendCurrency.code,

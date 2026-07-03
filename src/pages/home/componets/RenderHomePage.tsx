@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { currencies } from "../../../utilities/currency";
 import { Exchange } from "./Exchange";
-import History from "./History";
+import History from "../../history/History";
 
 export const RenderHomePage = () => {
   const [sendCurrency, setSendCurrency] = useState(currencies[0]);
