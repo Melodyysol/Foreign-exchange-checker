@@ -8,11 +8,11 @@ import CloseIcon from "../assets/icons/close-icon.png";
 import { UseSection } from "../custom-hook/UseSection";
 
 const authenticatedLinks = [
-  { name: "Converter", icon: "💱", section: "converter" },
-  { name: "Live Rates", icon: "📈", section: "live-rates" },
-  { name: "Rate Alerts", icon: "🔔", section: "rate-alerts" },
-  { name: "Charts", icon: "📊", section: "charts" },
-  { name: "History", icon: "⏳", section: "history" },
+  { name: "Converter", icon: "💱", section: "converter", path: "/" },
+  { name: "Favorites", icon: "⭐", path: "/favorites" },
+  { name: "Compare", icon: "⚖️", path: "/compare" },
+  { name: "Log", icon: "📝", path: "/log" },
+  { name: "History", icon: "⏳", section: "history", path: "/history" },
   { name: "Settings", icon: "⚙️", path: "/settings" },
 ];
 
@@ -120,7 +120,11 @@ const Sidebar = ({
                 variants={itemVariants}
                 className={`capitalize btn md:btn-lg justify-start hover:btn-active btn-block ${currentSection === link.section || location.pathname === link.path ? "btn-active" : "btn-soft"}`}
                 onClick={() => {
-                  handleSectionChange(link.section || "settings");
+                  if (link.path) {
+                    navigate(link.path);
+                  } else {
+                    handleSectionChange(link.section || "settings");
+                  }
                   setShowSidebar(false);
                 }}
               >

@@ -5,40 +5,45 @@ import { Header } from "../../layouts/Header";
 import { supabase } from "../../lib/supabase";
 import useAuth from "../../custom-hook/UseAuth";
 
-type FavoritePair = {
+type ConversionLog = {
   id: string;
+  amount: number;
+  converted_amount: number;
   base_currency: string;
   target_currency: string;
+  exchange_rate: number;
   created_at: string;
 };
 
 export const Index = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [favorites, setFavorites] = useState<FavoritePair[]>([]);
+  const [logs, setLogs] = useState<ConversionLog[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadFavorites = async () => {
+    const loadLogs = async () => {
       if (!user) {
-        setFavorites([]);
+        setLogs([]);
         setLoading(false);
         return;
       }
 
       const { data, error } = await supabase
-        .from("favorites")
-        .select("id, base_currency, target_currency, created_at")
+        .from("conversion_logs")
+        .select(
+          "id, amount, converted_amount, base_currency, target_currency, exchange_rate, created_at",
+        )
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
       if (!error) {
-        setFavorites(data ?? []);
+        setLogs(data ?? []);
       }
       setLoading(false);
     };
 
-    loadFavorites();
+    loadLogs();
   }, [user]);
 
   return (
@@ -48,14 +53,14 @@ export const Index = () => {
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.3em] text-accent">
-              Favorites
+              Conversion log
             </p>
             <h1 className="text-3xl font-semibold text-white">
-              Save your most-used currency pairs
+              Review every conversion you saved
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-gray-400">
-              Keep your go-to conversions at your fingertips and jump back into
-              them whenever you need a quick quote.
+              Track your recent activity, compare exchanged values, and keep a
+              running history of your currency decisions.
             </p>
           </div>
           <button
@@ -63,51 +68,47 @@ export const Index = () => {
             onClick={() => navigate("/")}
             className="btn btn-outline btn-sm"
           >
-            Open converter
+            Back to converter
           </button>
         </div>
 
         {loading ? (
           <div className="rounded-2xl border border-gray-800 bg-gray-900/80 p-8 text-center text-gray-400">
-            Loading your favorite pairs...
+            Loading your conversion history...
           </div>
         ) : !user ? (
           <div className="rounded-2xl border border-gray-800 bg-gray-900/80 p-8 text-center text-gray-400">
-            Sign in to start building your favorites list.
+            Sign in to view your saved conversion logs.
           </div>
-        ) : favorites.length === 0 ? (
+        ) : logs.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-700 bg-gray-950/60 p-8 text-center text-gray-400">
-            You have no saved favorite pairs yet. Mark a conversion as favorite
-            from the converter to see it here.
+            No conversions have been logged yet. Use the converter to create your
+            first entry.
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {favorites.map((favorite) => (
+          <div className="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/80">
+            <div className="grid grid-cols-[1.2fr_1fr_1fr_0.8fr] border-b border-gray-800 px-4 py-3 text-xs uppercase tracking-[0.25em] text-gray-500">
+              <span>Pair</span>
+              <span>Amount</span>
+              <span>Rate</span>
+              <span>Date</span>
+            </div>
+            {logs.map((log) => (
               <div
-                key={favorite.id}
-                className="rounded-2xl border border-gray-800 bg-gray-900/80 p-5 shadow-lg shadow-black/20"
+                key={log.id}
+                className="grid grid-cols-[1.2fr_1fr_1fr_0.8fr] border-b border-gray-800 px-4 py-4 text-sm text-gray-300 last:border-b-0"
               >
-                <div className="flex items-center justify-between">
-                  <p className="text-sm uppercase tracking-[0.25em] text-accent">
-                    Saved pair
+                <div>
+                  <p className="font-semibold text-white">
+                    {log.base_currency} → {log.target_currency}
                   </p>
-                  <span className="text-xs text-gray-500">
-                    {new Date(favorite.created_at).toLocaleDateString()}
-                  </span>
+                  <p className="text-xs text-gray-500">
+                    {log.converted_amount.toFixed(2)} {log.target_currency}
+                  </p>
                 </div>
-                <h2 className="mt-4 text-2xl font-semibold text-white">
-                  {favorite.base_currency} → {favorite.target_currency}
-                </h2>
-                <p className="mt-2 text-sm text-gray-400">
-                  Ready for a fast lookup whenever you want to compare rates again.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("/compare")}
-                  className="btn btn-sm btn-outline mt-4"
-                >
-                  Compare now
-                </button>
+                <div>{log.amount}</div>
+                <div>{log.exchange_rate.toFixed(4)}</div>
+                <div>{new Date(log.created_at).toLocaleDateString()}</div>
               </div>
             ))}
           </div>
