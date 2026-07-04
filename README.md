@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# Foreign Exchange Checker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A polished currency exchange dashboard built with React, TypeScript, and Vite. This project was designed as a Frontend Mentor-style challenge solution with a modern UI, live conversion flow, and user-focused tools for tracking exchange activity.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Foreign Exchange Checker lets users:
 
-## React Compiler
+- convert currencies with a clean, responsive interface
+- save favorite currency pairs for quick access
+- compare exchange rates side by side
+- view historical exchange trends over time
+- log conversions and revisit them later
+- sign in and persist their data with Supabase
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Responsive layout for desktop and mobile
+- Live exchange conversion experience
+- Favorites management
+- Compare page for quick pair evaluation
+- History chart with range selection
+- Conversion log tracking
+- Authentication and protected user data via Supabase
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- DaisyUI
+- TanStack Query
+- React Router
+- Supabase
+- Axios
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. Create a `.env` file in the project root and add your Supabase credentials:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
+
+4. Start the development server:
+
+```bash
+npm run dev
+```
+
+## Available Scripts
+
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
+```
+
+## Project Structure
+
+- `src/pages` — main views such as home, favorites, compare, history, and log
+- `src/components` / `src/layouts` — reusable UI structure and layout pieces
+- `src/service` — API and data fetching logic
+- `src/lib` — Supabase client setup
+- `src/context` — authentication and section state
+
+## Submission Summary
+
+This project was built to deliver a complete, modern currency exchange experience with a strong focus on usability, visual polish, and thoughtful interaction design. The app combines a live conversion flow with practical tools for saving favorites, comparing rates, tracking history, and reviewing conversion logs.
+
+## What I Learned
+
+- how to structure a multi-page React experience with routing and shared layout patterns
+- how to integrate Supabase for authentication and persistent user data
+- how to build responsive interfaces that feel polished on both mobile and desktop
+- how to combine API-driven data with React Query for a smoother experience
