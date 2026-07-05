@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../../layouts/Header";
 import { supabase } from "../../lib/supabase";
 import useAuth from "../../custom-hook/UseAuth";
+import LoadingFavorites from "../../components/loading/LoadingFavorites";
+import { instruction, noFavoriteMessage } from "./constants";
 
 type FavoritePair = {
   id: string;
@@ -14,7 +16,7 @@ type FavoritePair = {
 
 export const Index = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: loadingSupabse } = useAuth();
   const [favorites, setFavorites] = useState<FavoritePair[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,6 +43,15 @@ export const Index = () => {
     loadFavorites();
   }, [user]);
 
+  if (loadingSupabse) {
+    return (
+      <>
+        <Header />
+        <LoadingFavorites />
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -54,8 +65,7 @@ export const Index = () => {
               Save your most-used currency pairs
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-gray-400">
-              Keep your go-to conversions at your fingertips and jump back into
-              them whenever you need a quick quote.
+              {instruction}
             </p>
           </div>
           <button
@@ -77,8 +87,7 @@ export const Index = () => {
           </div>
         ) : favorites.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-700 bg-gray-950/60 p-8 text-center text-gray-400">
-            You have no saved favorite pairs yet. Mark a conversion as favorite
-            from the converter to see it here.
+            {noFavoriteMessage}
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -99,7 +108,8 @@ export const Index = () => {
                   {favorite.base_currency} → {favorite.target_currency}
                 </h2>
                 <p className="mt-2 text-sm text-gray-400">
-                  Ready for a fast lookup whenever you want to compare rates again.
+                  Ready for a fast lookup whenever you want to compare rates
+                  again.
                 </p>
                 <button
                   type="button"

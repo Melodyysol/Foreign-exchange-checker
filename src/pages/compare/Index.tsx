@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../../layouts/Header";
 import { fetchCurrency } from "../../service/fetchCurrency";
 import { currencies } from "../../utilities/currency";
+import { instruction } from "./constant";
+import useAuth from "../../custom-hook/UseAuth";
+import LoadingCompare from "../../components/loading/LoadingCompare";
 
 const uniqueCurrencies = Array.from(
   new Map(currencies.map((currency) => [currency.code, currency])).values(),
@@ -15,6 +18,8 @@ const Compare = () => {
   const [amount, setAmount] = useState(1000);
   const [fromCode, setFromCode] = useState("USD");
   const [toCode, setToCode] = useState("EUR");
+
+  const { loading: loadingSupabase } = useAuth();
 
   const { data: comparison, isLoading } = useQuery({
     queryKey: ["compare", amount, fromCode, toCode],
@@ -42,6 +47,10 @@ const Compare = () => {
     [amount, convertedAmount, toCode],
   );
 
+  if (loadingSupabase) {
+    return <LoadingCompare />;
+  }
+
   return (
     <>
       <Header />
@@ -55,8 +64,7 @@ const Compare = () => {
               Measure two currencies side by side
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-gray-400">
-              Review a quick live conversion, inspect the rate, and decide which
-              pair is the best fit for your transfer.
+              {instruction}
             </p>
           </div>
           <button
@@ -87,7 +95,7 @@ const Compare = () => {
                 <select
                   value={fromCode}
                   onChange={(event) => setFromCode(event.target.value)}
-                  className="select select-bordered w-full bg-gray-950/70 text-white"
+                  className="select select-bordered w-full bg-gray-950 text-white"
                 >
                   {uniqueCurrencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
@@ -102,7 +110,7 @@ const Compare = () => {
                 <select
                   value={toCode}
                   onChange={(event) => setToCode(event.target.value)}
-                  className="select select-bordered w-full bg-gray-950/70 text-white"
+                  className="select select-bordered w-full bg-gray-950 text-white"
                 >
                   {uniqueCurrencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
@@ -118,7 +126,9 @@ const Compare = () => {
                 Preview
               </p>
               <h2 className="mt-2 text-2xl font-semibold text-white">
-                {isLoading ? "Checking rate..." : `${amount} ${fromCode} = ${convertedAmount.toFixed(2)} ${toCode}`}
+                {isLoading
+                  ? "Checking rate..."
+                  : `${amount} ${fromCode} = ${convertedAmount.toFixed(2)} ${toCode}`}
               </h2>
               <p className="mt-2 text-sm text-gray-300">
                 {fromCode} to {toCode} conversion is ready for review.
