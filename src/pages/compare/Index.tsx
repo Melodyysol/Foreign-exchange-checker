@@ -8,6 +8,7 @@ import { currencies } from "../../utilities/currency";
 import { instruction } from "./constant";
 import useAuth from "../../custom-hook/UseAuth";
 import LoadingCompare from "../../components/loading/LoadingCompare";
+import { toast } from "sonner";
 
 const uniqueCurrencies = Array.from(
   new Map(currencies.map((currency) => [currency.code, currency])).values(),
@@ -21,7 +22,12 @@ const Compare = () => {
 
   const { loading: loadingSupabase } = useAuth();
 
-  const { data: comparison, isLoading } = useQuery({
+  const {
+    data: comparison,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["compare", amount, fromCode, toCode],
     queryFn: () => fetchCurrency(amount, fromCode, toCode),
     enabled: amount > 0 && fromCode !== toCode,
@@ -46,6 +52,10 @@ const Compare = () => {
     ],
     [amount, convertedAmount, toCode],
   );
+
+  if (isError) {
+    return toast.error(`Error fetching data: ${error}`);
+  }
 
   if (loadingSupabase) {
     return <LoadingCompare />;

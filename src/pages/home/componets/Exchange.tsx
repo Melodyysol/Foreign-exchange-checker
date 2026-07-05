@@ -19,6 +19,7 @@ import ExchangeIcon from "../../../assets/icons/icon-exchange.svg";
 import ExchangeVerticalIcon from "../../../assets/icons/icon-exchange-vertical.svg";
 import StarIcon from "../../../assets/icons/icon-star.svg";
 import FilledStarIcon from "../../../assets/icons/icon-star-filled.svg";
+import { toast } from "sonner";
 
 type Currency = (typeof currencies)[number];
 
@@ -44,7 +45,12 @@ export const Exchange = ({
   const { user } = useAuth();
 
   // TanStack Query using amount directly
-  const { data: product, isLoading } = useQuery({
+  const {
+    data: product,
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
     queryKey: ["currency", amount, sendCurrency.code, receiveCurrency.code],
     queryFn: () =>
       fetchCurrency(amount, sendCurrency.code, receiveCurrency.code),
@@ -62,7 +68,7 @@ export const Exchange = ({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user) {
-      alert("Login to continue");
+      toast.error("Login to continue");
       navigate("/login");
       return { success: false };
     }
@@ -76,7 +82,7 @@ export const Exchange = ({
       exchange_rate: amount > 0 ? calcultedAmount / amount : 0,
     });
     if (logError) {
-      alert("Error inserting log" + logError);
+      toast.error("Error inserting log" + logError);
     }
     if (favorite) {
       const { data: existingFavorite, error } = await supabase
@@ -92,7 +98,7 @@ export const Exchange = ({
         return;
       }
       if (existingFavorite) {
-        alert("Already in the favourite");
+        toast.error("Already in the favourite");
         return;
       }
       const { error: favoriteError } = await supabase.from("favorites").insert({
@@ -102,10 +108,14 @@ export const Exchange = ({
         created_at: new Date().toISOString(),
       });
       if (favoriteError) {
-        alert("Error inserting favorites" + favoriteError);
+        toast.error("Error inserting favorites" + favoriteError);
       }
     }
   };
+
+  if (isError) {
+    return toast.error(`Error fetching data: ${error}`);
+  }
 
   return (
     <section className="w-10/12 md:4/5 mx-auto py-10">

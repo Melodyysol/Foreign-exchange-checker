@@ -11,7 +11,7 @@ export async function fetchCurrency(
   to: string,
 ): Promise<Chart> {
   try {
-    const response = await axios.get("/v1/latest", {
+    const response = await axios.get("/api/latest", {
       params: { amount, from, to },
     });
     console.log("Response from API:", response.data); // Log the response data for debugging
@@ -41,16 +41,12 @@ export async function fetchCurrencyHistory(
   endDate: string,
 ): Promise<ChartHistory> {
   try {
-    const response = await axios.get(`/v1/${startDate}..${endDate}`, {
+    const response = await axios.get(`/api/${startDate}..${endDate}`, {
       params: { amount: 1, from, to },
     });
     console.log("Response from API:", response.data); // Log the response data for debugging
     const validatingData = chartHistorySchema.safeParse(response.data);
     if (!validatingData.success) {
-      console.error(
-        "Error validating the currency history:",
-        validatingData.error,
-      );
       throw new Error(
         "Error validating the currency history: " +
           validatingData.error.message,
@@ -59,7 +55,6 @@ export async function fetchCurrencyHistory(
     return validatingData.data;
   } catch (error) {
     if (error instanceof Error) {
-      console.error("Error fetching the currency history:", error.message);
       throw error;
     }
     throw new Error("Uncaught Error occurred", {

@@ -8,6 +8,7 @@ import { tabs } from "../../utilities/tabs";
 import { calculatedStartDate } from "../../utilities/calculateStartDate";
 import { HistoryChart } from "./HistoryChart";
 import type { CurrencyProps } from "../../type/history";
+import { toast } from "sonner";
 
 const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
@@ -16,7 +17,12 @@ const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
   const endDate = new Date().toISOString().split("T")[0];
   const startDate = calculatedStartDate(selectedRange);
 
-  const { data: currencyHistory, isLoading } = useQuery({
+  const {
+    data: currencyHistory,
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
     queryKey: ["currency-history", selectedRange],
     queryFn: () =>
       fetchCurrencyHistory(
@@ -37,6 +43,10 @@ const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
         }),
       )
     : [];
+
+  if (isError) {
+    return toast.error(`Error fetch History: ${error}`);
+  }
 
   return (
     <section className="w-10/12 md:w-4/5 mx-auto pb-10">

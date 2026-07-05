@@ -6,6 +6,7 @@ import useAuth from "../custom-hook/UseAuth";
 
 import CloseIcon from "../assets/icons/close-icon.png";
 import { UseSection } from "../custom-hook/UseSection";
+import { toast } from "sonner";
 
 const authenticatedLinks = [
   { name: "Converter", icon: "💱", section: "converter", path: "/" },
@@ -57,30 +58,11 @@ const Sidebar = ({
     show: { opacity: 1, x: 0 },
   };
 
-  // const handleNavigation = (path: string) => {
-  //   if (!user) {
-  //     alert("You must be logged in to access this feature.");
-  //     navigate("/login");
-  //     setShowSidebar(false);
-  //     return;
-  //   }
-  //   setShowSidebar(false);
-  //   if (path === "settings") {
-  //     navigate("/settings");
-  //   } else {
-  //     navigate("/");
-  //     setCurrentLink(authenticatedLinks.find((link) => link.name === path)!);
-  //   }
-  // };
-
   const handleLogout = async () => {
     if (user) {
       const result = await signOut();
-      if (!result.success) {
-        alert(`Error logging out: ${result.error?.message}`);
-        throw new Error(`Error logging out: ${result.error?.message}`);
-      } else {
-        alert("Logout successful!");
+      if (result.success) {
+        toast.error("Logout successful!");
         navigate("/login");
       }
     }

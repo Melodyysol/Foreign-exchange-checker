@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import type { User } from "@supabase/supabase-js";
 
+import { toast } from "sonner";
+
 import { AuthContext } from "../hook/useAuth";
 import type { AuthProfile } from "../type/auth";
 import { fetchProfile } from "../service/fetchProfile";
@@ -61,7 +63,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     if (signUpError) {
-      alert(`Error registering: ${signUpError.message}`);
+      toast.error(`Error registering: ${signUpError.message}`);
       return { success: false, error: signUpError };
     }
 
@@ -73,7 +75,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (profileError) {
         console.error("Error creating profile:", profileError.message);
-        alert(`Error creating profile: ${profileError.message}`);
+        toast.error(`Error creating profile: ${profileError.message}`);
         return { success: false, error: profileError };
       }
       return { success: true };
@@ -87,7 +89,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       password,
     });
     if (error) {
-      alert(`Error signing in: ${error.message}`);
+      toast.error(`Error signing in: ${error.message}`);
       return { success: false, error };
     }
     return { success: true };
@@ -104,6 +106,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       .eq("id", user.id);
 
     if (error) {
+      toast.error("Error updating profile: " + error);
       return { success: false, error };
     }
 
@@ -117,8 +120,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      console.error("Error signing out:", error.message);
-      alert(`Error signing out: ${error.message}`);
+      toast.error(`Error signing out: ${error.message}`);
       return { success: false, error };
     }
     return { success: true };

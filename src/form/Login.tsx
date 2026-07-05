@@ -7,6 +7,7 @@ import { FormInput } from "./shared/FormInput";
 import type { FormData } from "../type/form";
 import useAuth from "../custom-hook/UseAuth";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -26,12 +27,8 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     const result = await signIn(data.email, data.password);
-    if (!result.success) {
-      alert(`Error logging in: ${result.error?.message}`);
-      reset();
-      throw new Error(`Error logging in: ${result.error?.message}`);
-    } else {
-      alert("Login successful!");
+    if (result.success) {
+      toast.success("Login successful!");
       navigate("/");
     }
   };

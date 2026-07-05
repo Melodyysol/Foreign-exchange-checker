@@ -7,6 +7,7 @@ import { FormInput } from "./shared/FormInput";
 
 import type { FormData } from "../type/form";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export const Register = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     if (!data.username) {
-      alert("Username is required");
+      toast.error("Username is required");
       reset();
       throw new Error("Username is required");
     }
@@ -44,11 +45,11 @@ export const Register = () => {
       data.username,
     );
     if (!result.success) {
-      alert(`Error registering: ${result.error?.message}`);
+      toast.error(`Error registering: ${result.error?.message}`);
       reset();
       throw new Error(`Error registering: ${result.error?.message}`);
     } else {
-      alert("Registration successful!");
+      toast.success("Registration successful!");
       navigate("/login");
     }
   };
