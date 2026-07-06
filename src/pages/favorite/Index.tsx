@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import useAuth from "../../custom-hook/UseAuth";
 import LoadingFavorites from "../../components/loading/LoadingFavorites";
 import { instruction, noFavoriteMessage } from "./constants";
+import { toast } from "sonner";
 
 type FavoritePair = {
   id: string;
@@ -34,9 +35,11 @@ export const Index = () => {
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
-      if (!error) {
-        setFavorites(data ?? []);
+      if (error) {
+        toast.error(`Error loading favorites : ${error}`);
+        return;
       }
+      setFavorites(data ?? []);
       setLoading(false);
     };
 

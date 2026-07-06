@@ -45,7 +45,8 @@ const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
     : [];
 
   if (isError) {
-    return toast.error(`Error fetch History: ${error}`);
+    toast.error(`Error fetch History: ${error}`);
+    // return;
   }
 
   return (

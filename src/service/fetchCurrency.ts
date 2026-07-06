@@ -5,6 +5,15 @@ import {
   type ChartHistory,
   type Chart,
 } from "../schema/chartSchema";
+
+function handleFetchError(error: unknown, context: string): never {
+  if (error instanceof Error) {
+    console.error(`${context}:`, error.message);
+    throw error;
+  }
+  throw new Error(`Uncaught error in ${context}`, { cause: error });
+}
+
 export async function fetchCurrency(
   amount: number,
   from: string,
@@ -24,13 +33,7 @@ export async function fetchCurrency(
     }
     return validatingData.data;
   } catch (error) {
-    if (error instanceof Error) {
-      console.error("Error fetching the currency:", error.message);
-      throw error;
-    }
-    throw new Error("Uncaught Error occurred", {
-      cause: error,
-    });
+    return handleFetchError(error, "fetching currency");
   }
 }
 
@@ -54,11 +57,6 @@ export async function fetchCurrencyHistory(
     }
     return validatingData.data;
   } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error("Uncaught Error occurred", {
-      cause: error,
-    });
+    return handleFetchError(error, "fetching currency");
   }
 }

@@ -1,11 +1,15 @@
 import type { Tab, TabProps } from "../../type/tabs";
 import { tabs } from "../../utilities/tabs";
+import { useNavigate } from "react-router-dom";
 
 export const HistoryTabs = ({ currentTab, setCurrentTab }: TabProps) => {
+  const navigate = useNavigate();
+
   const handleTabChange = (tab: Tab) => {
     const selectedTab = tabs.find((t) => t.tab === tab);
     if (selectedTab) {
       setCurrentTab(selectedTab);
+      navigate(`/${selectedTab.tab}`);
     }
   };
 

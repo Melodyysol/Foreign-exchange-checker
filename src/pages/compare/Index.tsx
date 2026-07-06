@@ -54,7 +54,8 @@ const Compare = () => {
   );
 
   if (isError) {
-    return toast.error(`Error fetching data: ${error}`);
+    toast.error(`Error fetching data: ${error}`);
+    return;
   }
 
   if (loadingSupabase) {

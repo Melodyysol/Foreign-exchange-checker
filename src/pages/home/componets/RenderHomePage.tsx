@@ -4,10 +4,14 @@ import { Exchange } from "./Exchange";
 import History from "../../history/History";
 
 export const RenderHomePage = () => {
-  const [sendCurrency, setSendCurrency] = useState(currencies[0]);
-  const [receiveCurrency, setReceiveCurrency] = useState(
-    currencies[currencies.length - 1],
-  );
+  const fromCurrency =
+    currencies.find((currency) => currency.code === "USD") || currencies[0];
+  const toCurrency =
+    currencies.find((currency) => currency.code === "EUR") ||
+    currencies[currencies.length - 1];
+
+  const [sendCurrency, setSendCurrency] = useState(fromCurrency);
+  const [receiveCurrency, setReceiveCurrency] = useState(toCurrency);
   return (
     <main className="text-sm text-gray-400">
       <Exchange

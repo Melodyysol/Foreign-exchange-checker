@@ -114,7 +114,8 @@ export const Exchange = ({
   };
 
   if (isError) {
-    return toast.error(`Error fetching data: ${error}`);
+    toast.error(`Error fetching data: ${error}`);
+    return;
   }
 
   return (
