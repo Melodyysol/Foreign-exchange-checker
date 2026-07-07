@@ -58,7 +58,7 @@ export const HistoryTabs = ({ currentTab, setCurrentTab }: TabProps) => {
               key={t.tab}
               className="uppercase flex flex-row items-center gap-1 cursor-pointer hover:bg-base-300 p-2"
               value={t.tab}
-              onClick={() => setCurrentTab(t)}
+              onClick={() => handleTabChange(t.tab)}
             >
               {t.tab}
               {t.num ? (

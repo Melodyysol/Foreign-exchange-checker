@@ -5,15 +5,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../custom-hook/UseAuth";
 
 import CloseIcon from "../assets/icons/close-icon.png";
-import { UseSection } from "../custom-hook/UseSection";
 import { toast } from "sonner";
 
 const authenticatedLinks = [
-  { name: "Converter", icon: "💱", section: "converter", path: "/" },
+  { name: "Converter", icon: "💱", path: "/" },
   { name: "Favorites", icon: "⭐", path: "/favorites" },
   { name: "Compare", icon: "⚖️", path: "/compare" },
   { name: "Log", icon: "📝", path: "/log" },
-  { name: "History", icon: "⏳", section: "history", path: "/history" },
+  { name: "History", icon: "⏳", path: "/history" },
   { name: "Settings", icon: "⚙️", path: "/settings" },
 ];
 
@@ -24,8 +23,6 @@ const Sidebar = ({
 }) => {
   // const [currentLink, setCurrentLink] = useState(authenticatedLinks[0]);
   const location = useLocation();
-  const { currentSection, handleSectionChange } = UseSection();
-
   const { user, signOut } = useAuth();
 
   const navigate = useNavigate();
@@ -100,13 +97,9 @@ const Sidebar = ({
               <motion.li
                 key={link.name}
                 variants={itemVariants}
-                className={`capitalize btn md:btn-lg justify-start hover:btn-active btn-block ${currentSection === link.section || location.pathname === link.path ? "btn-active" : "btn-soft"}`}
+                className={`capitalize btn md:btn-lg justify-start hover:btn-active btn-block ${location.pathname === link.path ? "btn-active" : "btn-soft"}`}
                 onClick={() => {
-                  if (link.path) {
-                    navigate(link.path);
-                  } else {
-                    handleSectionChange(link.section || "settings");
-                  }
+                  navigate(link.path);
                   setShowSidebar(false);
                 }}
               >

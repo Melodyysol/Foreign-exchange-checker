@@ -39,10 +39,13 @@ const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
     ? Object.entries(currencyHistory.rates).map(
         ([date, rateOb]: [string, Record<string, number>]) => ({
           date,
-          rate: rateOb["EUR"] ?? 0,
+          rate: rateOb[receiveCurrency.code] ?? 0,
         }),
       )
     : [];
+
+  const latestRate = chartPoints[chartPoints.length - 1]?.rate ?? 0;
+  const previousRate = chartPoints[chartPoints.length - 2]?.rate ?? latestRate;
 
   if (isError) {
     toast.error(`Error fetch History: ${error}`);
@@ -56,6 +59,8 @@ const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
       <HistoryStats
         setSelectedRange={setSelectedRange}
         selectedRange={selectedRange}
+        latestRate={latestRate}
+        previousRate={previousRate}
       />
       {/* Interactive Trend Chart */}
       <HistoryChart

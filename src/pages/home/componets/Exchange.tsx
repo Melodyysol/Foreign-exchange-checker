@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../../lib/supabase";
@@ -65,6 +65,22 @@ export const Exchange = ({
 
   const calcultedAmount = product?.rates[receiveCurrency.code] || 0;
 
+  const statusLabel = useMemo(() => {
+    if (isLoading) {
+      return "Live • updating...";
+    }
+
+    if (product) {
+      const timeLabel = new Date().toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit",
+      });
+      return `Live • updated at ${timeLabel}`;
+    }
+
+    return "Live • waiting for rate";
+  }, [isLoading, product]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user) {
@@ -83,7 +99,9 @@ export const Exchange = ({
     });
     if (logError) {
       toast.error("Error inserting log" + logError);
+      return;
     }
+    toast.success("Log conversion successful");
     if (favorite) {
       const { data: existingFavorite, error } = await supabase
         .from("favorites")
@@ -97,6 +115,7 @@ export const Exchange = ({
         console.log("Error checking existing data: " + error);
         return;
       }
+
       if (existingFavorite) {
         toast.error("Already in the favourite");
         return;
@@ -110,6 +129,7 @@ export const Exchange = ({
       if (favoriteError) {
         toast.error("Error inserting favorites" + favoriteError);
       }
+      toast.success("Conversion added to favorites");
     }
   };
 
@@ -235,14 +255,13 @@ export const Exchange = ({
         {/* Conversion Result and Buttons Section */}
         <div className="flex flex-col justify-between md:flex-row mt-5 items-center gap-2 border-t border-t-base-100 pt-3">
           <div>
-            <span>
-              {amount} {sendCurrency.code} ={" "}
-              {isLoading ? "..." : calcultedAmount.toFixed(2)}{" "}
-              {receiveCurrency.code}
+            <div className="flex items-center gap-2 text-sm text-gray-200">
+              <span className="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse" />
+              <span>{statusLabel}</span>
+            </div>
+            <span className="mt-1 block text-sm text-gray-400">
+              {amount} {sendCurrency.code} = {isLoading ? "..." : calcultedAmount.toFixed(2)} {receiveCurrency.code}
             </span>
-            <small className="text-[8px] text-secondary ml-2">
-              Updated 2 minutes ago
-            </small>
           </div>
           <div className="flex gap-2">
             <button

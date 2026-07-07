@@ -30,7 +30,7 @@ export const Header = () => {
           </div>
         </div>
         <div className="uppercase text-xs md:text-lg">
-          <small>55 Currencies · EOD · ECB data</small>
+          <small>30 Currencies · EOD · ECB data</small>
         </div>
       </div>
       <Navbar />

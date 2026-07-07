@@ -7,6 +7,7 @@ import useAuth from "../../custom-hook/UseAuth";
 import LoadingFavorites from "../../components/loading/LoadingFavorites";
 import { instruction, noFavoriteMessage } from "./constants";
 import { toast } from "sonner";
+import { tabs } from "../../utilities/tabs";
 
 type FavoritePair = {
   id: string;
@@ -20,6 +21,9 @@ export const Index = () => {
   const { user, loading: loadingSupabse } = useAuth();
   const [favorites, setFavorites] = useState<FavoritePair[]>([]);
   const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    tabs.map((tab) => tab.tab === "favorites" && (tab.num = favorites.length));
+  }, [favorites]);
 
   useEffect(() => {
     const loadFavorites = async () => {

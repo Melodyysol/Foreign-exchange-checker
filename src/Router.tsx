@@ -6,8 +6,8 @@ import FavoritesPage from "./pages/favorite/Index";
 import ComparePage from "./pages/compare/Index";
 import LogPage from "./pages/log/Index";
 import HistoryPage from "./pages/history/Index";
-import LoadingCompare from "./components/loading/LoadingCompare";
 import Settings from "./pages/settings/Settings";
+import ErrorPage from "./components/ErrorPage";
 
 const Router = () => {
   return (
@@ -20,7 +20,7 @@ const Router = () => {
       <Route path="/log" element={<LogPage />} />
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/settings" element={<Settings />} />
-      <Route path="*" element={<LoadingCompare />} />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 };

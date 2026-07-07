@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../../layouts/Header";
 import { supabase } from "../../lib/supabase";
 import useAuth from "../../custom-hook/UseAuth";
+import { tabs } from "../../utilities/tabs";
 
 type ConversionLog = {
   id: string;
@@ -20,6 +21,10 @@ export const Index = () => {
   const { user } = useAuth();
   const [logs, setLogs] = useState<ConversionLog[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    tabs.map((tab) => tab.tab === "log" && (tab.num = logs.length));
+  }, [logs]);
 
   useEffect(() => {
     const loadLogs = async () => {
@@ -82,8 +87,8 @@ export const Index = () => {
           </div>
         ) : logs.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-700 bg-gray-950/60 p-8 text-center text-gray-400">
-            No conversions have been logged yet. Use the converter to create your
-            first entry.
+            No conversions have been logged yet. Use the converter to create
+            your first entry.
           </div>
         ) : (
           <div className="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900/80">

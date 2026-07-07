@@ -6,9 +6,11 @@ import { currencies } from "../../utilities/currency";
 
 import defaultUserLogo from "../../assets/icons/default-user-logo.jpeg";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { LoadingPage } from "../../components/loading/Index";
 
 const Settings = () => {
-  const { user, updateProfile, profile, signOut } = useAuth();
+  const { user, updateProfile, profile, signOut, loading } = useAuth();
 
   const [username, setUsername] = useState("");
   const [baseCurrency, setBaseCurrency] = useState("USD");
@@ -20,6 +22,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (profile) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUsername(profile.username || "");
       setBaseCurrency(profile.default_base_currency || "USD");
       setTargetCurrency(profile.default_target_currency || "EUR");
@@ -32,6 +35,10 @@ const Settings = () => {
       setUsername(fallbackName);
     }
   }, [profile, user]);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   const handleProfileImage = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -55,12 +62,17 @@ const Settings = () => {
     if (!user) return;
 
     setIsSaving(true);
-    await updateProfile({
+    const { success, error } = await updateProfile({
       username,
       default_base_currency: baseCurrency,
       default_target_currency: targetCurrency,
     });
+    if (!success) {
+      toast.error(`Error updating profile: ${error}`);
+      return;
+    }
     setIsSaving(false);
+    toast.success("Data saved successfully");
   };
 
   const memberSince = profile?.created_at
@@ -115,9 +127,8 @@ const Settings = () => {
                 onClick={() => {
                   if (user) {
                     signOut();
-                  } else {
-                    navigate("/login");
                   }
+                  navigate("/login");
                 }}
                 className="btn btn-outline btn-sm rounded-full capitalize"
               >
