@@ -7,6 +7,7 @@ import ComparePage from "./pages/compare/Index";
 import LogPage from "./pages/log/Index";
 import HistoryPage from "./pages/history/Index";
 import LoadingCompare from "./components/loading/LoadingCompare";
+import Settings from "./pages/settings/Settings";
 
 const Router = () => {
   return (
@@ -18,6 +19,7 @@ const Router = () => {
       <Route path="/compare" element={<ComparePage />} />
       <Route path="/log" element={<LogPage />} />
       <Route path="/history" element={<HistoryPage />} />
+      <Route path="/settings" element={<Settings />} />
       <Route path="*" element={<LoadingCompare />} />
     </Routes>
   );
