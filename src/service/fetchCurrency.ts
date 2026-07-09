@@ -6,6 +6,8 @@ import {
   type Chart,
 } from "../schema/chartSchema";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ?? "";
+
 function handleFetchError(error: unknown, context: string): never {
   if (error instanceof Error) {
     console.error(`${context}:`, error.message);
@@ -20,7 +22,7 @@ export async function fetchCurrency(
   to: string,
 ): Promise<Chart> {
   try {
-    const response = await axios.get("/api/latest", {
+    const response = await axios.get(`${apiBaseUrl}/api/latest`, {
       params: { amount, from, to },
     });
     console.log("Response from API:", response.data); // Log the response data for debugging
@@ -44,8 +46,8 @@ export async function fetchCurrencyHistory(
   endDate: string,
 ): Promise<ChartHistory> {
   try {
-    const response = await axios.get(`/api/${startDate}..${endDate}`, {
-      params: { amount: 1, from, to },
+    const response = await axios.get(`${apiBaseUrl}/api/history`, {
+      params: { amount: 1, from, to, startDate, endDate },
     });
     console.log("Response from API:", response.data); // Log the response data for debugging
     const validatingData = chartHistorySchema.safeParse(response.data);
