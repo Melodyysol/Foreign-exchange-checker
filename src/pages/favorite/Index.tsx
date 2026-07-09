@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import deleteIcon from "../../assets/icons/icon-delete.svg";
 
 import { Header } from "../../layouts/Header";
 import { supabase } from "../../lib/supabase";
@@ -8,6 +9,7 @@ import LoadingFavorites from "../../components/loading/LoadingFavorites";
 import { instruction, noFavoriteMessage } from "./constants";
 import { toast } from "sonner";
 import { tabs } from "../../utilities/tabs";
+import ErrorPage from "../../components/error/ErrorPage";
 
 type FavoritePair = {
   id: string;
@@ -40,8 +42,8 @@ export const Index = () => {
         .order("created_at", { ascending: false });
 
       if (error) {
-        toast.error(`Error loading favorites : ${error}`);
-        return;
+        toast.error(`Error loading favorites : ${error.message}`);
+        return <ErrorPage error={error} />;
       }
       setFavorites(data ?? []);
       setLoading(false);
@@ -49,6 +51,16 @@ export const Index = () => {
 
     loadFavorites();
   }, [user]);
+
+  const removeFavorite = async (id: string) => {
+    const { error } = await supabase.from("favorites").delete().eq("id", id);
+    if (error) {
+      toast.error(`Error deleting favorite: ${error.message}`);
+      return null;
+    }
+    toast.success("Favorite deleted list");
+    setFavorites((prev) => prev.filter((f) => f.id !== id));
+  };
 
   if (loadingSupabse) {
     return (
@@ -118,13 +130,27 @@ export const Index = () => {
                   Ready for a fast lookup whenever you want to compare rates
                   again.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("/compare")}
-                  className="btn btn-sm btn-outline mt-4"
-                >
-                  Compare now
-                </button>
+                <div className="flex justify-between mt-4">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/compare")}
+                    className="btn btn-sm btn-outline"
+                  >
+                    Compare now
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => removeFavorite(favorite.id)}
+                    className="btn btn-sm"
+                    aria-busy
+                  >
+                    <img
+                      src={deleteIcon}
+                      alt="delete-icon"
+                      aria-labelledby="delete icon"
+                    />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

@@ -20,6 +20,7 @@ import ExchangeVerticalIcon from "../../../assets/icons/icon-exchange-vertical.s
 import StarIcon from "../../../assets/icons/icon-star.svg";
 import FilledStarIcon from "../../../assets/icons/icon-star-filled.svg";
 import { toast } from "sonner";
+import ErrorPage from "../../../components/error/ErrorPage";
 
 type Currency = (typeof currencies)[number];
 
@@ -134,8 +135,8 @@ export const Exchange = ({
   };
 
   if (isError) {
-    toast.error(`Error fetching data: ${error}`);
-    return;
+    toast.error(`Error fetching data: ${error.message}`);
+    return <ErrorPage error={error} />;
   }
 
   return (
@@ -260,7 +261,9 @@ export const Exchange = ({
               <span>{statusLabel}</span>
             </div>
             <span className="mt-1 block text-sm text-gray-400">
-              {amount} {sendCurrency.code} = {isLoading ? "..." : calcultedAmount.toFixed(2)} {receiveCurrency.code}
+              {amount} {sendCurrency.code} ={" "}
+              {isLoading ? "..." : calcultedAmount.toFixed(2)}{" "}
+              {receiveCurrency.code}
             </span>
           </div>
           <div className="flex gap-2">

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 
 import { Header } from "../../layouts/Header";
 import useAuth from "../../custom-hook/UseAuth";
@@ -40,7 +40,7 @@ const Settings = () => {
     return <LoadingPage />;
   }
 
-  const handleProfileImage = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleProfileImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
@@ -56,7 +56,7 @@ const Settings = () => {
     }
   };
 
-  const handleSave = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!user) return;

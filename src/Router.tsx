@@ -7,7 +7,7 @@ import ComparePage from "./pages/compare/Index";
 import LogPage from "./pages/log/Index";
 import HistoryPage from "./pages/history/Index";
 import Settings from "./pages/settings/Settings";
-import ErrorPage from "./components/ErrorPage";
+import ErrorUrl from "./components/error/ErrorUrl";
 
 const Router = () => {
   return (
@@ -20,7 +20,7 @@ const Router = () => {
       <Route path="/log" element={<LogPage />} />
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/settings" element={<Settings />} />
-      <Route path="*" element={<ErrorPage />} />
+      <Route path="*" element={<ErrorUrl />} />
     </Routes>
   );
 };

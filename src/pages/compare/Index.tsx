@@ -9,6 +9,7 @@ import { instruction } from "./constant";
 import useAuth from "../../custom-hook/UseAuth";
 import LoadingCompare from "../../components/loading/LoadingCompare";
 import { toast } from "sonner";
+import ErrorPage from "../../components/error/ErrorPage";
 
 const uniqueCurrencies = Array.from(
   new Map(currencies.map((currency) => [currency.code, currency])).values(),
@@ -54,8 +55,8 @@ const Compare = () => {
   );
 
   if (isError) {
-    toast.error(`Error fetching data: ${error}`);
-    return;
+    toast.error(`Error fetching data: ${error.message}`);
+    return <ErrorPage error={error} />;
   }
 
   if (loadingSupabase) {
