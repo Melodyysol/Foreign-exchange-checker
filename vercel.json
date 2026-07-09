@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://blngsxuixrbyfwmunfwl.supabase.co/functions/v1/exchange-rate:path*"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

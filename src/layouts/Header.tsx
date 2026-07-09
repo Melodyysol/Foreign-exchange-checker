@@ -1,68 +1,44 @@
+import { useState } from "react";
+import { AnimatePresence } from "motion/react";
 
-import LogoImage from "../assets/icons/logo.svg";
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
-const markets = [
-  {
-    pair: "USD/JPY",
-    price: 157.91,
-    change: 0.84,
-  },
-  {
-    pair: "EUR/USD",
-    price: 1.0842,
-    change: -0.22,
-  },
-  {
-    pair: "GBP/USD",
-    price: 1.2754,
-    change: 0.18,
-  },
-  {
-    pair: "USD/NGN",
-    price: "1580.50",
-    change: -0.05,
-  },
-];
+import LogoIcon from "../assets/icons/logo.svg";
+import MenuIcon from "../assets/icons/menu-icon.png";
 
 export const Header = () => {
+  const [showSidebar, setShowSidebar] = useState(false);
   return (
-    <header className="text-sm text-neutral-500">
+    <header className="text-sm text-neutral-500 sticky top-0 bg-base-100 z-30">
       <div className="p-4 flex items-center justify-between">
-        <div className="logo cursor-pointer w-30 sm:w-40 md:w-60">
-          <img src={LogoImage} alt="FX Checker" />
-        </div>
-        <div className="uppercase text-xs md:text-lg">
-          <small>55 Currencies · EOD · ECB data</small>
-        </div>
-      </div>
-      <div className="flex">
-        <span className="bg-accent text-black font-bold px-3 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-          LIVE MARKETS
-        </span>
-        <div className="flex-1 overflow-hidden bg-gray-900">
-          <div className="overflow-hidden bg-gray-900">
-            <div className="flex w-max animate-marquee">
-              {[...markets, ...markets].map((market, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-3 px-5 whitespace-nowrap"
-                >
-                  <span>{market.pair}</span>
-                  <span>{market.price}</span>
-                  <span
-                    className={
-                      market.change > 0 ? "text-success" : "text-error"
-                    }
-                  >
-                    {market.change > 0 ? "▲" : "▼"} {market.change}%
-                  </span>
-                </div>
-              ))}
-            </div>
+        <div className="flex items-center">
+          <button
+            className="tooltip tooltip-bottom rounded-full mr-2 md:mr-10 cursor-pointer"
+            type="button"
+            data-tip="menu"
+            onClick={() => setShowSidebar((prev) => !prev)}
+          >
+            <img
+              src={MenuIcon}
+              alt={MenuIcon}
+              className="w-5 rounded-sm md:w-8"
+            />
+          </button>
+          <div className="logo cursor-pointer w-30 sm:w-40 md:w-60">
+            <img src={LogoIcon} alt="FX Checker" />
           </div>
         </div>
+        <div className="uppercase text-xs md:text-lg">
+          <small>30 Currencies · EOD · ECB data</small>
+        </div>
       </div>
+      <Navbar />
+      <AnimatePresence mode="wait">
+        {showSidebar && (
+          <Sidebar key="sidebar" setShowSidebar={setShowSidebar} />
+        )}
+      </AnimatePresence>
     </header>
   );
 };
