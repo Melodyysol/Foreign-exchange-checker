@@ -8,6 +8,7 @@ import defaultUserLogo from "../../assets/icons/default-user-logo.jpeg";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { LoadingPage } from "../../components/loading/Index";
+import { handleImageUpload } from "./uploadImage";
 
 const Settings = () => {
   const { user, updateProfile, profile, signOut, loading } = useAuth();
@@ -15,7 +16,6 @@ const Settings = () => {
   const [username, setUsername] = useState("");
   const [baseCurrency, setBaseCurrency] = useState("USD");
   const [targetCurrency, setTargetCurrency] = useState("EUR");
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
   const navigate = useNavigate();
@@ -45,13 +45,11 @@ const Settings = () => {
     if (!files || files.length === 0) return;
 
     const file = files[0];
-    const url = URL.createObjectURL(file);
-    setPreviewImage(url);
-
     if (user) {
+      handleImageUpload(file, user.id);
+
       await updateProfile({
         username: username || user.user_metadata?.name || user.email || "",
-        avatar_url: url,
       });
     }
   };
@@ -92,7 +90,7 @@ const Settings = () => {
               <div className="flex items-center gap-4">
                 <div className="relative">
                   <img
-                    src={previewImage || profile?.avatar_url || defaultUserLogo}
+                    src={profile?.avatar_url || defaultUserLogo}
                     alt="Profile"
                     className="h-24 w-24 rounded-full border-4 border-accent object-cover md:h-28 md:w-28"
                   />
