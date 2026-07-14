@@ -9,7 +9,6 @@ import { calculatedStartDate } from "../../utilities/calculateStartDate";
 import { HistoryChart } from "./HistoryChart";
 import type { CurrencyProps } from "../../type/history";
 import { toast } from "sonner";
-import ErrorPage from "../../components/error/ErrorPage";
 
 const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
   const [currentTab, setCurrentTab] = useState(tabs[0]);
@@ -50,7 +49,6 @@ const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {
 
   if (isError) {
     toast.error(`Error fetch History: ${error.message}`);
-    return <ErrorPage error={error} />;
   }
 
   return (

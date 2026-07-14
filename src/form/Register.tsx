@@ -45,7 +45,6 @@ export const Register = () => {
       data.username,
     );
     if (!result.success) {
-      toast.error(`Error registering: ${result.error?.message}`);
       reset();
       throw new Error(`Error registering: ${result.error?.message}`);
     } else {

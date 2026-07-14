@@ -63,7 +63,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     if (signUpError) {
-      toast.error(`Error registering: ${signUpError.message}`);
+      toast.error(`Error signing up: ${signUpError.message}`);
       return { success: false, error: signUpError };
     }
 

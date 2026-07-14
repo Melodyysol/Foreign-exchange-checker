@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { currencies } from "../../../utilities/currency";
-import { Exchange } from "./Exchange";
+import { Exchange } from "../../converter/Exchange";
 import History from "../../history/History";
 
 export const RenderHomePage = () => {
