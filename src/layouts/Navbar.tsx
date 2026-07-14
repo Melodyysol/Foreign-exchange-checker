@@ -12,7 +12,6 @@ const initialMarkets: Market[] = [
   { pair: "USD/JPY", price: 157.91, change: 0.84 },
   { pair: "EUR/USD", price: 1.0842, change: -0.22 },
   { pair: "GBP/USD", price: 1.2754, change: 0.18 },
-  { pair: "USD/NGN", price: 1580.5, change: -0.05 },
 ];
 
 const Navbar = () => {

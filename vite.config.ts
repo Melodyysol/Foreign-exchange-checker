@@ -8,10 +8,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:54321",
+        target: "https://api.frankfurter.app",
         changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, "/functions/v1/exchange-rate"),
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
