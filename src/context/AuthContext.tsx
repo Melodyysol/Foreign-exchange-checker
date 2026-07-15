@@ -74,7 +74,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (profileError) {
-        console.error("Error creating profile:", profileError.message);
         toast.error(`Error creating profile: ${profileError.message}`);
         return { success: false, error: profileError };
       }

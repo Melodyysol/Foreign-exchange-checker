@@ -12,7 +12,6 @@ const apiBaseUrl = import.meta.env.DEV
 
 function handleFetchError(error: unknown, context: string): never {
   if (error instanceof Error) {
-    console.error(`${context}:`, error.message);
     throw error;
   }
   throw new Error(`Uncaught error in ${context}`, { cause: error });
@@ -27,10 +26,8 @@ export async function fetchCurrency(
     const response = await axios.get(`${apiBaseUrl}/latest`, {
       params: { amount, from, to },
     });
-    console.log("Response from API:", response.data); // Log the response data for debugging
     const validatingData = chartSchema.safeParse(response.data);
     if (!validatingData.success) {
-      console.error("Error validating the currency:", validatingData.error);
       throw new Error(
         "Error validating the currency: " + validatingData.error.message,
       );
@@ -51,7 +48,6 @@ export async function fetchCurrencyHistory(
     const response = await axios.get(`${apiBaseUrl}/${startDate}..${endDate}`, {
       params: { amount: 1, from, to },
     });
-    console.log("Response from API:", response.data); // Log the response data for debugging
     const validatingData = chartHistorySchema.safeParse(response.data);
     if (!validatingData.success) {
       throw new Error(

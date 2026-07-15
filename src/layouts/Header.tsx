@@ -36,7 +36,11 @@ export const Header = () => {
       <Navbar />
       <AnimatePresence mode="wait">
         {showSidebar && (
-          <Sidebar key="sidebar" setShowSidebar={setShowSidebar} />
+          <Sidebar
+            key="sidebar"
+            setShowSidebar={setShowSidebar}
+            showSidebar={showSidebar}
+          />
         )}
       </AnimatePresence>
     </header>

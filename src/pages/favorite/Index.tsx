@@ -9,7 +9,6 @@ import LoadingFavorites from "../../components/loading/LoadingFavorites";
 import { instruction, noFavoriteMessage } from "./constants";
 import { toast } from "sonner";
 import { tabs } from "../../utilities/tabs";
-import ErrorPage from "../../components/error/ErrorPage";
 
 type FavoritePair = {
   id: string;
@@ -43,7 +42,7 @@ export const Index = () => {
 
       if (error) {
         toast.error(`Error loading favorites : ${error.message}`);
-        return <ErrorPage error={error} />;
+        return;
       }
       setFavorites(data ?? []);
       setLoading(false);

@@ -36,7 +36,7 @@ export const Register = () => {
     if (!data.username) {
       toast.error("Username is required");
       reset();
-      throw new Error("Username is required");
+      return;
     }
 
     const result = await registerFunction(
@@ -101,6 +101,7 @@ export const Register = () => {
           <p className="mt-5 text-sm text-info text-center">
             Already have an account?{" "}
             <span
+              role="button"
               className="link link-hover link-success"
               onClick={() => navigate("/login")}
             >

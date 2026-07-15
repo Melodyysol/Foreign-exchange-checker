@@ -112,8 +112,7 @@ export const Exchange = ({
         .maybeSingle();
 
       if (error) {
-        console.log("Error checking existing data: " + error);
-        return;
+        throw error;
       }
 
       if (existingFavorite) {
@@ -258,9 +257,12 @@ export const Exchange = ({
           <div>
             <div className="flex items-center gap-2 text-sm text-gray-200">
               <span className="h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse" />
-              <span>{statusLabel}</span>
+              <span aria-live="polite">{statusLabel}</span>
             </div>
-            <span className="mt-1 block text-sm text-gray-400">
+            <span
+              aria-live="polite"
+              className="mt-1 block text-sm text-gray-400"
+            >
               {amount} {sendCurrency.code} ={" "}
               {isLoading ? "..." : calcultedAmount.toFixed(2)}{" "}
               {receiveCurrency.code}
