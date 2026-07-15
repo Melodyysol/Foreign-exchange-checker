@@ -91,10 +91,14 @@ const Compare = () => {
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-2xl border border-gray-800 bg-gray-900/80 p-5 shadow-2xl shadow-black/20">
             <div className="grid gap-4 md:grid-cols-2">
-              <label className="space-y-2 text-sm text-gray-400">
+              <label
+                htmlFor="amount"
+                className="space-y-2 text-sm text-gray-400"
+              >
                 <span className="uppercase tracking-[0.25em]">Amount</span>
                 <input
                   type="number"
+                  id="amount"
                   min="1"
                   value={amount}
                   onChange={(event) => setAmount(Number(event.target.value))}

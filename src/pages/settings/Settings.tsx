@@ -94,7 +94,7 @@ const Settings = () => {
                 <div className="relative">
                   <img
                     src={profileUrl || profile?.avatar_url || defaultUserLogo}
-                    alt="Profile"
+                    alt="User profile image"
                     className="h-24 w-24 rounded-full border-4 border-accent object-cover md:h-28 md:w-28"
                   />
                   <label className="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-black/45 text-xs font-semibold text-white opacity-0 transition hover:opacity-100">

@@ -144,12 +144,13 @@ export const Exchange = ({
         <div className="flex gap-4 flex-col md:flex-row items-center justify-between">
           {/* Send Currency Section */}
           <div className="shadow shadow-3xl shadow-gray-600 p-2 rounded-md flex-1 w-full">
-            <label htmlFor="send currency" className="text-xs">
+            <label htmlFor="send-currency" className="text-xs">
               SEND
             </label>
             <div className="flex justify-between items-center relative">
               <input
                 type="number"
+                id="send-currency"
                 value={amount}
                 onChange={(e) => setAmount(parseInt(e.target.value))}
                 className="input w-20 my-2 outline-none border-none bg-transparent"
@@ -160,7 +161,7 @@ export const Exchange = ({
                   <img
                     src={sendCurrency.flag}
                     className="w-6 h-6 rounded-full object-cover"
-                    alt=""
+                    alt="send currency flag"
                   />
                   {sendCurrency.code}
                 </ListboxButton>
@@ -171,7 +172,7 @@ export const Exchange = ({
                         <img
                           src={currency.flag}
                           className="w-6 h-6 rounded-full object-cover"
-                          alt=""
+                          alt="send currency flags"
                         />
                         <div>
                           <p className="font-medium">{currency.code}</p>
@@ -193,7 +194,7 @@ export const Exchange = ({
             onClick={swapCurrencies}
             className="shadow shadow-3xl shadow-gray-600 p-2 rounded-md hidden md:block cursor-pointer active:scale-90 hover:border-primary hover:border transition-all duration-300"
           >
-            <img src={ExchangeIcon} alt="Exchange vertical icon" />
+            <img src={ExchangeIcon} alt="Exchange horizontal icon" />
           </button>
           <button
             type="button"
@@ -206,12 +207,13 @@ export const Exchange = ({
           {/* Receive Currency Section */}
 
           <div className="shadow shadow-3xl shadow-gray-600 p-2 rounded-md flex-1 w-full">
-            <label htmlFor="receive currency" className="text-xs uppercase">
+            <label htmlFor="receive-currency" className="text-xs uppercase">
               receive
             </label>
             <div className="flex justify-between items-center relative">
               <input
                 type="number"
+                id="receive-currency"
                 readOnly
                 value={isLoading ? "" : calcultedAmount.toFixed(2)}
                 onChange={(e) => setAmount(parseInt(e.target.value))}
@@ -223,7 +225,7 @@ export const Exchange = ({
                   <img
                     src={receiveCurrency.flag}
                     className="w-6 h-6 rounded-full object-cover"
-                    alt=""
+                    alt="receive currency flag"
                   />
                   {receiveCurrency.code}
                 </ListboxButton>
@@ -234,7 +236,7 @@ export const Exchange = ({
                         <img
                           src={currency.flag}
                           className="w-6 h-6 rounded-full object-cover"
-                          alt=""
+                          alt="receive currency flags"
                         />
                         <div>
                           <p className="font-medium">{currency.code}</p>
@@ -272,7 +274,7 @@ export const Exchange = ({
             >
               <img
                 src={favorite ? FilledStarIcon : StarIcon}
-                alt="star Icon"
+                alt="Add to favorites"
                 className="w-3"
               />
               <span>{favorite ? "favorited" : "favorite"}</span>

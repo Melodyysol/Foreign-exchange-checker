@@ -21,7 +21,7 @@ export const Header = () => {
           >
             <img
               src={MenuIcon}
-              alt={MenuIcon}
+              alt="menu icon"
               className="w-5 rounded-sm md:w-8"
             />
           </button>

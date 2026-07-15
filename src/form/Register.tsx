@@ -73,6 +73,7 @@ export const Register = () => {
               <label htmlFor="username">Username:</label>
               <input
                 type="text"
+                id="username"
                 className="input mt-1 md:input-lg"
                 {...register("username", {
                   required: "Username is required",

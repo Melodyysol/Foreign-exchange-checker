@@ -90,12 +90,13 @@ const Sidebar = ({
             data-tip="Close"
             onClick={() => setShowSidebar(false)}
           >
-            <img src={CloseIcon} alt={CloseIcon} className="rounded-full" />
+            <img src={CloseIcon} alt="close icon" className="rounded-full" />
           </button>
           <ul className="flex flex-col gap-4 items-start">
             {authenticatedLinks.map((link) => (
               <motion.li
                 key={link.name}
+                role="button"
                 variants={itemVariants}
                 className={`capitalize btn md:btn-lg justify-start hover:btn-active btn-block ${location.pathname === link.path ? "btn-active" : "btn-soft"}`}
                 onClick={() => {

@@ -61,6 +61,7 @@ export const Login = () => {
           <p className="mt-5 text-sm text-info text-center">
             Don't have an account?{" "}
             <span
+              role="button"
               className="link link-hover link-success"
               onClick={() => navigate("/register")}
             >

@@ -7,6 +7,7 @@ export const FormInput = ({ register, errors }: FormInputProps) => {
         <label htmlFor="email">Email:</label>
         <input
           type="email"
+          id="email"
           className="input mt-1 md:input-lg"
           {...register("email", {
             required: "Email is required",
@@ -24,6 +25,7 @@ export const FormInput = ({ register, errors }: FormInputProps) => {
         <label htmlFor="password">Password:</label>
         <input
           type="password"
+          id="password"
           className="input mt-1 md:input-lg"
           {...register("password", {
             required: "Password is required",

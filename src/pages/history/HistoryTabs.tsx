@@ -56,6 +56,7 @@ export const HistoryTabs = ({ currentTab, setCurrentTab }: TabProps) => {
           {tabs.map((t) => (
             <li
               key={t.tab}
+              role="button"
               className="uppercase flex flex-row items-center gap-1 cursor-pointer hover:bg-base-300 p-2"
               value={t.tab}
               onClick={() => handleTabChange(t.tab)}
