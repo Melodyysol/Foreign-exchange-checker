@@ -7,7 +7,7 @@ import { HistoryTabs } from "./HistoryTabs";
 import { tabs } from "../../utilities/tabs";
 import { calculatedStartDate } from "../../utilities/calculateStartDate";
 import { HistoryChart } from "./HistoryChart";
-import type { CurrencyProps } from "../../type/history";
+import type { CurrencyProps } from "../../types/history";
 import { toast } from "sonner";
 
 const History = ({ sendCurrency, receiveCurrency }: CurrencyProps) => {

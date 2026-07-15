@@ -1,4 +1,4 @@
-import type { Tab, TabProps } from "../../type/tabs";
+import type { Tab, TabProps } from "../../types/tabs";
 import { tabs } from "../../utilities/tabs";
 import { useNavigate } from "react-router-dom";
 

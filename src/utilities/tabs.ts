@@ -1,4 +1,4 @@
-import type { Tab } from "../type/tabs";
+import type { Tab } from "../types/tabs";
 
 export const tabs: { tab: Tab; num?: number }[] = [
   { tab: "history" },

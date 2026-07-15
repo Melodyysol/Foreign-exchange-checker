@@ -1,4 +1,4 @@
-import type { FormInputProps } from "../../type/form";
+import type { FormInputProps } from "../../types/form";
 
 export const FormInput = ({ register, errors }: FormInputProps) => {
   return (

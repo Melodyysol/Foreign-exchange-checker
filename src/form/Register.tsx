@@ -5,7 +5,7 @@ import { Header } from "../layouts/Header";
 import useAuth from "../custom-hook/UseAuth";
 import { FormInput } from "./shared/FormInput";
 
-import type { FormData } from "../type/form";
+import type { FormData } from "../types/form";
 import { useEffect } from "react";
 import { toast } from "sonner";
 

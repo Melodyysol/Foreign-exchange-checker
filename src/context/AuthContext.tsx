@@ -6,7 +6,7 @@ import type { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
 
 import { AuthContext } from "../hook/useAuth";
-import type { AuthProfile } from "../type/auth";
+import type { AuthProfile } from "../types/auth";
 import { fetchProfile } from "../service/fetchProfile";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {

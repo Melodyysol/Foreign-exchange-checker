@@ -4,7 +4,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { Header } from "../layouts/Header";
 import { FormInput } from "./shared/FormInput";
 
-import type { FormData } from "../type/form";
+import type { FormData } from "../types/form";
 import useAuth from "../custom-hook/UseAuth";
 import { useEffect } from "react";
 import { toast } from "sonner";
