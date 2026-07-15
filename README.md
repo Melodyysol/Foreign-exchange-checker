@@ -2,6 +2,16 @@
 
 A polished currency exchange dashboard built with React, TypeScript, and Vite. This project was designed as a Frontend Mentor-style challenge solution with a modern UI, live conversion flow, and user-focused tools for tracking exchange activity.
 
+## Preview
+
+- image preview: "src/assets/images/preview.png"
+
+## Links
+
+- Frontend Mentor challenge: https://www.frontendmentor.io/challenges
+- Live demo: https://foreign-exchange-checker-zeta.vercel.app/
+- Github: https://github.com/Melodyysol/Foreign-exhange-checker
+
 ## Overview
 
 Foreign Exchange Checker lets users:
@@ -84,3 +94,4 @@ This project was built to deliver a complete, modern currency exchange experienc
 - how to integrate Supabase for authentication and persistent user data
 - how to build responsive interfaces that feel polished on both mobile and desktop
 - how to combine API-driven data with React Query for a smoother experience
+- how to troubleshoot and work around CORS issues while integrating external APIs
